@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    // === WHERE IS YOUR CODE? ===
+    "rootDir": "./src",              // All your .ts files are in src/
+    "outDir": "./dist",              // Compiled .js files go to dist/
+
+    // === WHAT JAVASCRIPT TO GENERATE? ===
+    "target": "ES2022",              // Modern but stable JavaScript
+    "module": "commonjs",            // Node.js uses CommonJS (require/module.exports)
+    "lib": ["ES2022"],               // Use ES2022 features
+
+    // === NODE.JS SPECIFIC ===
+    "types": ["node"],               // Use Node.js type definitions
+    "esModuleInterop": true,         // Makes imports work smoothly
+    "resolveJsonModule": true,       // Can import .json files
+    "moduleResolution": "node",      // How to find modules
+
+    // === HELPFUL OUTPUTS ===
+    "sourceMap": true,               // Makes debugging easier (shows original .ts files)
+    "declaration": true,             // Generates .d.ts type files
+    
+    // === STRICTNESS (Catch Bugs Early) ===
+    "strict": true,                  // Enable all strict checks
+    "noImplicitAny": true,           // Can't use 'any' without saying so
+    "strictNullChecks": true,        // Can't use null/undefined carelessly
+    "noUnusedLocals": true,          // Warns about unused variables
+    "noUnusedParameters": true,      // Warns about unused function parameters
+    "noImplicitReturns": true,       // Functions must return consistently
+
+    // === OTHER IMPORTANT STUFF ===
+    "skipLibCheck": true,            // Faster compilation
+    "forceConsistentCasingInFileNames": true  // Case-sensitive imports
+  },
+  
+  // === WHAT FILES TO INCLUDE/EXCLUDE ===
+  "include": ["src/**/*"],           // Compile everything in src/
+  "exclude": ["node_modules", "dist"] // Don't touch these folders
+}
