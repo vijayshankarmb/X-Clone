@@ -1,7 +1,7 @@
 import {prisma} from "../lib/prisma";
 import bcrypt from "bcryptjs";
 
-export const createUser = async (email: string, password: string, userName: string, name: string, avatarUrl: string)=>{
+export const createUser = async (userName: string, email: string, password: string, name: string, avatarUrl: string)=>{
 
     const existingUser = await prisma.user.findUnique({
         where: {email}
