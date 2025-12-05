@@ -1,7 +1,7 @@
 import {prisma} from "../lib/prisma";
 import bcrypt from "bcryptjs";
 
-export const createUser = async (userName: string, email: string, password: string, name: string, avatarUrl: string)=>{
+export const createUser = async ({ username, email, password, name, avatarUrl }: { username: string, email: string, password: string, name?: string, avatarUrl?: string })=>{
 
     const existingUser = await prisma.user.findUnique({
         where: {email}
@@ -17,9 +17,9 @@ export const createUser = async (userName: string, email: string, password: stri
         data: {
             email,
             password: hashPassword,
-            userName,
+            userName: username,
             name,
-            avatarUrl: avatarUrl || avatarUrl || "https://api.dicebear.com/7.x/initials/svg?seed=" + userName
+            avatarUrl: avatarUrl || "https://api.dicebear.com/7.x/initials/svg?seed=" + username
         },
         select: {
             id: true,
