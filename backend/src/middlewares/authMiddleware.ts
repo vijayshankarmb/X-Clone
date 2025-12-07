@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 
 interface AuthRequest extends Request {
-  userId?: number;
+  authorId?: number;
 }
 
 const authMiddleware = (req: AuthRequest, res: Response, next: NextFunction): void => {
@@ -17,8 +17,8 @@ const authMiddleware = (req: AuthRequest, res: Response, next: NextFunction): vo
     const secretKey = process.env.JWT_SECRET_KEY;
     if (!secretKey) throw new Error("JWT secret key missing");
 
-    const decoded = jwt.verify(token, secretKey) as {userId: number};
-    req.userId = decoded.userId;
+    const decoded = jwt.verify(token, secretKey) as {authorId: number};
+    req.authorId = decoded.authorId;
 
     next();
   } catch (error) {

@@ -38,7 +38,7 @@ export const createUser = async ({ username, email, password, name, avatarUrl }:
     }
 
     const token = jwt.sign(
-        {userId: user.id},
+        {authorId: user.id},
         secretKey,
         {expiresIn: "7d"}
     );
@@ -76,7 +76,7 @@ export const loginUser = async ({email, password}: {email: string, password: str
     }
 
     const token = jwt.sign(
-        {userId: user.id},
+        {authorId: user.id},
          secretKey,
          {expiresIn: "7d"})
     
