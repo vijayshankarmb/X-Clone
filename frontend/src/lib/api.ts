@@ -42,6 +42,36 @@ export const api = {
     return result;
   },
 
+  async logout() {
+    const response = await fetch(`${API_BASE_URL}/auth/logout`, {
+      method: 'POST',
+      credentials: 'include',
+    });
+    const result: ApiResponse<any> = await response.json();
+    if (!response.ok) {
+      throw new Error(result.message || 'Logout failed');
+    }
+    return result;
+  },
+
+  async getCurrentUser() {
+    const response = await fetch(`${API_BASE_URL}/auth/me`, {
+      method: 'GET',
+      credentials: 'include',
+    });
+    const result: ApiResponse<any> = await response.json();
+    if (!response.ok) {
+      // If 401, it just means not logged in, but the context expects success/failure
+      // Depending on how backend handles it. If 401 throws error, AuthContext catches it.
+      // We can just return result if standard structure
+      if (response.status === 401) {
+        return { success: false, message: 'Not authenticated' };
+      }
+      throw new Error(result.message || 'Failed to fetch current user');
+    }
+    return result;
+  },
+
   // Post endpoints
   async getAllPosts() {
     const response = await fetch(`${API_BASE_URL}/posts`, {

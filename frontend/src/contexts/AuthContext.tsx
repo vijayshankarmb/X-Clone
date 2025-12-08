@@ -29,11 +29,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
 
   useEffect(() => {
-    // Check if user is authenticated by trying to fetch user data
-    // For now, we'll just set loading to false
-    // You can add a /me endpoint to verify authentication
-    setLoading(false);
-  }, []);
+    const checkAuth = async () => {
+      try {
+        const response = await api.getCurrentUser();
+        if (response.success && response.user) {
+          setUser(response.user);
+        } else {
+          setUser(null); // Ensure user is null if not authenticated
+        }
+      } catch (error) {
+        console.error('Failed to fetch current user:', error);
+        setUser(null); // Clear user on error
+      } finally {
+        setLoading(false);
+      }
+    };
+    checkAuth();
+  }, []); // Empty dependency array means this runs once on mount
 
   const login = async (email: string, password: string) => {
     try {
@@ -59,9 +71,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const logout = () => {
-    // Clear cookie by setting it to expire
-    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+  const logout = async () => {
+    try {
+      await api.logout();
+    } catch (error) {
+      console.error("Logout failed", error);
+    }
     setUser(null);
     router.push('/login');
   };
@@ -89,6 +104,8 @@ export function useAuth() {
   }
   return context;
 }
+
+
 
 
 
